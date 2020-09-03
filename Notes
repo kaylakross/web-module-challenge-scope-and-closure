@@ -1,0 +1,216 @@
+** when should we use GLOBAL VARIABLES?
+    - as little as possible
+** how are variables scoped vs functions? 
+    - scoped in the same way
+** what is a parameter?
+    - a placeholder for an argument
+
+
+
+
+** SCOPE - area in which a variable can be accessed, where are my variables and functions available to me
+    GLOBAL variables - avaible everywhere to me
+
+VAR - function scoped, redeclared, redefined. can be updated
+LET - block scoped, cant be redeclared, can be updated
+CONST - block scoped, cant be redeclared, cant be updated
+
+
+
+
+
+
+
+** FUCTIION SCOPING - when variables are created inside of a function, those variables will only ever be available inside of the function
+    think of {} as gates - whenever you see them, they keep variables in
+
+** BLOCK SCOPE - 
+
+** STATIC SCOPING - 
+
+** try not to create gloabal variables - can lead to bugs down the road especially with more than one developer working on project
+
+
+funtion sayHi(name){
+    function yell(){
+            console.log(name.toUpperCase());
+    }
+    yell();
+}
+sayHi('Will');
+
+
+        if we create function inside of anohther function that function will only ever be available inside of that function 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+** HOISTING - allows us to access function and variable before they have been created - 2 things: function declarations and variable declarations
+    - const and let are NOT hoissting variables; only var is hoisted
+    - know about it but it is not good practice to use it 
+
+
+working();
+function working (){
+        console.log('it works!) ;
+}
+
+const working = () => console.log('it works!');   <---- arrow functions are not hoisted
+
+
+function working (){
+    console.log('it works!');
+    console.log(add(1,2));
+}
+
+function add (num1, num2){
+    return num1 + num2;
+}
+
+some people set files up like this:
+    what does this file do?
+    all function invocation
+    how does this file do it
+    all functions
+
+console.log(myName);
+var name = 'Britt':
+console.log(myName);
+
+undefined means NO VALUE
+2 pass compiler - on the first pass we get references and on the second we get values assigned
+
+
+
+
+
+
+
+
+
+
+
+
+
+CLOSURES
+    - gives us ability to put functions together
+    - the abilty to access functions from a parent-level scope in a child level scope even after the parent function has been terminated
+    - code that has been identified elsewhere that we can use later; we can pass variables down but we cant pass them back up
+    - closure is created when the inner function references the outer function  or uses a variable created outside of the inner function
+        * nesting - a function within a function, having a parent child relationship
+
+
+function (country) (countryName){
+const lang1 = 'French';
+const lang2 = 'English':
+console.log ('${lang1} and ${lang2} are the offical languages of ${countryName}')
+console.log)countryName);
+debugger;
+    function province(provName){
+    console.log(provName);
+         function city (cityName){
+         const food = 'maple syrup';
+         console.log ('${lang1} and ${lang2} are the offical languages of ${countryName} and the most population province is ${provName} and the national food is ${food}')
+         console.log(cityName) 
+         } // this closes the city
+        city('Ottawa')
+    } // this close the province
+    province('Ontario')
+}  // this closes the country
+
+
+
+
+
+
+
+
+
+
+
+
+INNER SCOPE references variables in outer scope - that is what is refered to as a CLOSURE
+
+function game (sport);{
+    let score = 0;
+    return function win (){
+        score ++: // incrimenting the score by 1
+        return 'Your $(sport) game is $(score)';
+    }
+}
+ // private variable
+  const hockeyGame = game('hockey');
+  console.log(hockeyGame());
+  console.log(hockeyGame()); // each time we add console.log it increases the score by 1
+  console.log(hockeyGame());
+
+
+const football = game('football');
+console.log(football());
+
+console.log(score); // not accesaable because score exists inside of the function sport
+console.log(win()); // only accessable if we invoke the game function 
+
+
+
+
+
+
+
+
+
+
+
+
+
+** CALLBACKS AND HIGHER ORDER FUNCTIONS - 
+    - HIGHER ORDER FUNCTIONS: receive other functionS as parameters
+    - CALLBACK FUNCTIONS: are passed into higher order funtions as arguments
+    ** higher order funtions are PASSED IN and callback functions RECEIVE **
+
+
+// kitchen is our higher order function - our callback is going to be passed into chef 
+const function = function(i1, i2, chef){
+    return chef(i1, i2); 
+}
+// these are our callback functions
+const pizzaChef = function(i1, i2){
+    return 'I took ${i2} and I took ${i2} and I made you a pizza';
+}
+
+const pastaChef = function(i1, i2){
+    return 'I took ${i1} and I took ${i2} and I made you a spaghetti';
+}
+
+console.log(kitchen('sauce', 'dough', pizzaChef));
+console.log(kitchen('sauce', 'dough', pastaChef));
+
+
+
+
+
+
+function calculator(num1, num2, cb){
+    return cb(num1, num2);
+}
+
+const add = (num1, numm2) => num1 + num2;
+const subtract = (num1, numm2) => num1 - num2;
+const multiply = (num1, numm2) => num1 * num2;
+const divide = (num1, numm2) => num1 / num2;
+
+console.log(calculator(5, 6, add));
+console.log(calculator(5, 6, subtract));
+console.log(calculator(5, 6, multiply));
+console.log(calculator(5, 6, divide));
